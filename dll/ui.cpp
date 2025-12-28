@@ -2962,10 +2962,13 @@ void UI::HUD() {
     auto basePos = io.DisplaySize.y + Base().y;
     auto lineHeight = ImGui::GetTextLineHeightWithSpacing();
 
-    std::string version = fmt::format("MAXWELL {}", get_version()) + " | GAME " + game_version();
-    drawlist.AddText(
-      ImVec2(io.DisplaySize.x / 2.f - ImGui::CalcTextSize(version.c_str()).x / 2.f + Base().x, basePos - lineHeight),
-      0x99999999, version.c_str());
+    if(ImGui::GetFrameCount() < 600 || options["ui_visible"].value) {
+        std::string version = fmt::format("MAXWELL {}", get_version()) + " | GAME " + game_version();
+        drawlist.AddText(
+            ImVec2(io.DisplaySize.x / 2.f - ImGui::CalcTextSize(version.c_str()).x / 2.f + Base().x, basePos - lineHeight), 
+            0x99999999, version.c_str()    
+        );
+    }
     if(ImGui::GetFrameCount() < 600 && !options["ui_visible"].value) {
       auto text = "MAXWELL is hidden, press F10 to show";
       drawlist.AddText(
